@@ -7,9 +7,11 @@ class Plane extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment(0, planeY),
-      height: 70,
-      width: 70,
-      child: Image.asset('assets/images/airplane.png'),
+      child: Image.asset(
+        'assets/images/airplane.png',
+        height: 70,
+        width: 70,
+      ),
     );
   }
 }
