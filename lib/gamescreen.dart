@@ -16,8 +16,8 @@ class _GameScreenState extends State<GameScreen> {
   double initialPos = planeY;
   double height = 0;
   double time = 0;
-  double gravity = -4.9;
-  double velocity = 3;
+  double gravity = -4.4;
+  double velocity = 2.9;
 
   //game settings
   bool gameIsStated = false;
@@ -43,7 +43,47 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   void _showDialog() {
-    showDialog(context: context,barrierDismissible: false, builder: builder)
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.brown,
+            title: const Center(
+              child: Text(
+                'G A M E  O V E R',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+            actions: [
+              GestureDetector(
+                  onTap: resetGame,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Container(
+                      padding: const EdgeInsets.all(17),
+                      color: Colors.white,
+                      child: const Text(
+                        'P L A Y  A G A I N',
+                        style: TextStyle(
+                          color: Colors.brown,
+                        ),
+                      ),
+                    ),
+                  ))
+            ],
+          );
+        });
+  }
+
+  void resetGame() {
+    Navigator.pop(context);
+    setState(() {
+      planeY = 0.0;
+      gameIsStated = false;
+      time = 0.0;
+      initialPos = planeY;
+    });
   }
 
   bool planeCrash() {

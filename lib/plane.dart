@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Plane extends StatelessWidget {
+  // ignore: prefer_typing_uninitialized_variables
   final planeY;
-  const Plane(this.planeY);
+  const Plane(this.planeY, {super.key});
   @override
   Widget build(BuildContext context) {
     return Container(
