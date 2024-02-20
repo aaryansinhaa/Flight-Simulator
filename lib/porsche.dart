@@ -27,7 +27,7 @@ class Porsche extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Image.asset('assets/porsche.jpeg'),
+                Image.asset('assets/images/porsche.jpeg'),
                 const SizedBox(height: 10),
                 Text(
                   'Before starting, Let\'s look at the amazing Porsche 911!!',
@@ -42,7 +42,8 @@ class Porsche extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => GameScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => const GameScreen()),
                     );
                   },
                   child: const Text(

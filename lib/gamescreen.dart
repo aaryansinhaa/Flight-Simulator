@@ -10,7 +10,12 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
-  double planeY = 0;
+  //plane variables
+  static double planeY = 0.0;
+  double initialPos = planeY;
+  double height = 0;
+  double time = 0;
+
   void jump() {
     Timer.periodic(const Duration(milliseconds: 50), (timer) {
       setState(() {
