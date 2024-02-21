@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:spiralrunner/barrier.dart';
+import 'package:spiralrunner/coverscreen.dart';
 import 'package:spiralrunner/plane.dart';
 
 class GameScreen extends StatefulWidget {
@@ -18,9 +20,31 @@ class _GameScreenState extends State<GameScreen> {
   double time = 0;
   double gravity = -4.4;
   double velocity = 2.9;
+  double planeHeight = 0.2;
+  double planeWidth = 0.3;
 
+  //Barrier settings
+  static List<double> barrierX = [2, 2 + 1.5];
+  static double barrierWidth = 0.25; //out of 2;
+  List<List<double>> barrierHeight = [
+    //out of 2
+    //[top,bottom]
+    [0.6, 0.4],
+    [0.4, 0.6],
+  ];
   //game settings
   bool gameIsStated = false;
+  void moveMap() {
+    for (int i = 0; i < barrierX.length; i++) {
+      setState(() {
+        barrierX[i] -= 0.05;
+      });
+
+      if (barrierX[i] <= 1.5) {
+        barrierX[i] += 3;
+      }
+    }
+  }
 
   void gameStart() {
     gameIsStated = true;
@@ -38,6 +62,7 @@ class _GameScreenState extends State<GameScreen> {
       //keeps the time going
 
       //print(planeY);
+      moveMap();
       time += 0.1;
     });
   }
@@ -90,6 +115,14 @@ class _GameScreenState extends State<GameScreen> {
     if (planeY < -1.0 || planeY > 1.0) {
       return true;
     }
+    for (int i = 0; i < barrierX.length; i++) {
+      if (barrierX[i] <= planeWidth &&
+          barrierX[i] + barrierWidth >= -planeWidth &&
+          (planeY <= -1 + barrierHeight[i][0] ||
+              planeY + planeHeight >= 1 - barrierHeight[i][1])) {
+        return true;
+      }
+    }
     return false;
   }
 
@@ -112,23 +145,60 @@ class _GameScreenState extends State<GameScreen> {
         body: Column(
           children: [
             Expanded(
-                flex: 3,
-                child: Container(
-                  color: Colors.blue,
-                  child: Center(
-                    child: Stack(children: [
-                      Plane(planeY),
-                      Container(
-                        alignment: const Alignment(0, -0.5),
-                        child: Text(
-                          gameIsStated ? '' : 'T A P  T O  P L A Y',
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 30),
-                        ),
-                      )
-                    ]),
+              flex: 3,
+              child: Container(
+                color: Colors.blue,
+                child: Center(
+                  child: Stack(
+                    children: [
+                      //plane
+                      Plane(
+                        planeY: planeY,
+                        planeHeight: planeHeight,
+                        planeWidth: planeWidth,
+                      ),
+                      //cover screen
+                      CoverScreen(
+                        gameIsStated: gameIsStated,
+                      ),
+                      //top barrier 0
+                      Barrier(
+                        barrierX: barrierX[0],
+                        barrierWidth: barrierWidth,
+                        barrierHeight:
+                            1 - barrierHeight[0][0], // Adjusted this line
+                        isThisBottomBarrier: false,
+                      ),
+
+                      //bottom barrier 0
+                      Barrier(
+                        isThisBottomBarrier: true,
+                        barrierHeight: barrierHeight[0][1],
+                        barrierWidth: barrierWidth,
+                        barrierX: barrierX[0],
+                      ),
+
+                      //top barrier 1
+                      Barrier(
+                        isThisBottomBarrier: false,
+                        barrierHeight:
+                            1 - barrierHeight[1][0], // Adjusted this line
+                        barrierWidth: barrierWidth,
+                        barrierX: barrierX[1],
+                      ),
+
+                      //bottom barrier 1
+                      Barrier(
+                        isThisBottomBarrier: true,
+                        barrierHeight: barrierHeight[1][1],
+                        barrierWidth: barrierWidth,
+                        barrierX: barrierX[1],
+                      ),
+                    ],
                   ),
-                )),
+                ),
+              ),
+            ),
             Expanded(
                 child: Container(
               color: Colors.grey,
