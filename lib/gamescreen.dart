@@ -8,6 +8,7 @@ import 'package:spiralrunner/plane.dart';
 class GameScreen extends StatefulWidget {
   const GameScreen({super.key});
   @override
+  // ignore: library_private_types_in_public_api
   _GameScreenState createState() => _GameScreenState();
 }
 
@@ -25,12 +26,12 @@ class _GameScreenState extends State<GameScreen> {
 
   //Barrier settings
   static List<double> barrierX = [2, 2 + 1.5];
-  static double barrierWidth = 0.25; //out of 2;
+  static double barrierWidth = 0.20; //out of 2;
   List<List<double>> barrierHeight = [
     //out of 2
     //[top,bottom]
-    [0.6, 0.4],
-    [0.4, 0.6],
+    [0.3, 0.2],
+    [0.2, 0.3],
   ];
   //game settings
   bool gameIsStated = false;
